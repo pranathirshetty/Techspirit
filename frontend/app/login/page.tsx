@@ -2,25 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 export default function LoginPage() {
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    if (!name || !password) return;
-
-    const fakeEmail = `${name.toLowerCase()}@moodshare.local`;
-
-    try {
-      await signInWithEmailAndPassword(auth, fakeEmail, password);
-      router.push("/home"); // or /action
-    } catch (err: any) {
-      alert("Invalid name or password 😭");
-    }
+    // 🔥 Firebase login will come here
+    console.log(email, password);
   };
 
   return (
@@ -30,12 +23,16 @@ export default function LoginPage() {
         <h2 className="text-2xl font-semibold text-center text-[#8A4F5C] mb-2">
           Welcome back 🌷
         </h2>
+        <p className="text-center text-sm text-gray-500 mb-6">
+          Take a moment. We’re glad you’re here.
+        </p>
 
         <div className="space-y-4">
           <input
-            placeholder="Your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-2xl p-4 bg-[#FFF7FB] outline-none focus:ring-2 focus:ring-pink-200"
           />
 
@@ -61,7 +58,7 @@ export default function LoginPage() {
             className="text-[#8A4F5C] font-semibold cursor-pointer"
             onClick={() => router.push("/signup")}
           >
-            Create a name
+            Create an account
           </span>
         </p>
       </div>
