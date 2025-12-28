@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -12,33 +13,56 @@ export default function SignupPage() {
   const [confirm, setConfirm] = useState("");
 
   const handleSignup = async () => {
-    if (!name || !password) return;
-    if (password !== confirm) return alert("Passwords don’t match 😭");
+    if (!name || !password || !confirm) {
+      return alert("Fill all fields da 🙄");
+    }
 
-    const fakeEmail = `${name.toLowerCase()}@moodshare.local`;
+    if (password !== confirm) {
+      return alert("Passwords don’t match 😭");
+    }
+
+    // sanitize name
+    const cleanName = name.toLowerCase().replace(/\s+/g, "");
+
+    // Firebase-safe fake email
+    const fakeEmail = `${cleanName}@mindcare.app`;
 
     try {
       await createUserWithEmailAndPassword(auth, fakeEmail, password);
-      router.push("/home"); // or /action
-    } catch (err: any) {
-      alert("Name already taken 😬");
+      router.push("/home");
+    } catch (err) {
+      alert("Name already taken or weak password 😬");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFE6F2] via-[#EDE7FF] to-[#DFF8FF] flex items-center justify-center px-4">
-      <div className="bg-white/80 backdrop-blur rounded-3xl shadow-xl p-8 w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center 
+      bg-gradient-to-br from-[#FFE6F2] via-[#EDE7FF] to-[#DFF8FF]">
 
-        <h2 className="text-2xl font-semibold text-center text-[#8A4F5C] mb-2">
-          Create your space 🌱
-        </h2>
+      <div className="w-[380px] bg-white rounded-[32px] shadow-2xl overflow-hidden">
 
-        <div className="space-y-4">
+        {/* Header */}
+        <div className="bg-gradient-to-br from-pink-200 via-purple-200 to-blue-200 p-6 text-center">
+          <div className="flex justify-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-full bg-yellow-300 flex items-center justify-center">😊</div>
+            <div className="w-8 h-8 rounded-full bg-green-300 flex items-center justify-center">🙂</div>
+            <div className="w-8 h-8 rounded-full bg-blue-300 flex items-center justify-center">😔</div>
+            <div className="w-8 h-8 rounded-full bg-red-300 flex items-center justify-center">😟</div>
+          </div>
+
+          <h1 className="text-2xl font-bold text-gray-800">MindCare</h1>
+          <p className="text-sm text-gray-600">
+            Create your safe space 🌱
+          </p>
+        </div>
+
+        {/* Form */}
+        <div className="p-6 space-y-4">
           <input
-            placeholder="Choose a name"
+            placeholder="HappySoul 🌸"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-2xl p-4 bg-[#FFF7FB] outline-none focus:ring-2 focus:ring-pink-200"
+            className="w-full px-4 py-3 rounded-xl bg-[#f6f7ff] border border-gray-200"
           />
 
           <input
@@ -46,7 +70,7 @@ export default function SignupPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-2xl p-4 bg-[#FFF7FB] outline-none focus:ring-2 focus:ring-pink-200"
+            className="w-full px-4 py-3 rounded-xl bg-[#f6f7ff] border border-gray-200"
           />
 
           <input
@@ -54,26 +78,28 @@ export default function SignupPage() {
             placeholder="Confirm Password"
             value={confirm}
             onChange={(e) => setConfirm(e.target.value)}
-            className="w-full rounded-2xl p-4 bg-[#FFF7FB] outline-none focus:ring-2 focus:ring-pink-200"
+            className="w-full px-4 py-3 rounded-xl bg-[#f6f7ff] border border-gray-200"
           />
 
           <button
             onClick={handleSignup}
-            className="w-full py-3 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-500 text-white font-medium"
+            className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold shadow-lg"
           >
-            Create Account
+            Create Account ✨
           </button>
+
+          <p className="text-xs text-center text-gray-400">
+            No email • No identity • 100% anonymous
+          </p>
+
+          <p className="text-sm text-center text-gray-600">
+            Already have a space?{" "}
+            <Link href="/login" className="text-purple-500 font-semibold">
+              Login
+            </Link>
+          </p>
         </div>
 
-        <p className="text-center text-xs text-gray-500 mt-6">
-          Already have a name?{" "}
-          <span
-            className="text-[#8A4F5C] font-semibold cursor-pointer"
-            onClick={() => router.push("/login")}
-          >
-            Login
-          </span>
-        </p>
       </div>
     </div>
   );
