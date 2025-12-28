@@ -30,6 +30,8 @@ export default function WriteAndChoosePage() {
   if (mode === "public") {
 
     alert("Thank you for sharing.Your post will appear on the Support Wall after moderation.");
+      sessionStorage.setItem("publicPost", text);
+    router.push("/wall");
 
     setText("");
   }
