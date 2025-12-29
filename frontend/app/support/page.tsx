@@ -7,11 +7,15 @@ export default function SupportPage() {
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // 🌷 FALLBACK SUPPORT MESSAGE
+  const FALLBACK_REPLY =
+    "I’m really glad you reached out. What you’re feeling matters, even if it feels heavy right now. Take a slow breath — you’re not alone in this. 🌷";
+
   useEffect(() => {
     const storedText = sessionStorage.getItem("supportText");
 
     if (!storedText) {
-      setReply("I am here with you. Share what is on your mind. ");
+      setReply(FALLBACK_REPLY);
       setLoading(false);
       return;
     }
@@ -30,14 +34,21 @@ export default function SupportPage() {
         });
 
         const data = await res.json();
-        setReply(data.reply);
+
+        // ✅ if API gives reply, use it
+        if (data?.reply) {
+          setReply(data.reply);
+        } 
+        // ⚠️ API responded but no reply field
+        else {
+          setReply(FALLBACK_REPLY);
+        }
       } catch (err) {
-        setReply(
-          "Something went wrong, but I'm still here with you. 🌷"
-        );
+        // ❌ API totally failed
+        setReply(FALLBACK_REPLY);
       } finally {
         setLoading(false);
-        sessionStorage.removeItem("supportText"); // clean up
+        sessionStorage.removeItem("supportText");
       }
     }
 
@@ -63,7 +74,7 @@ export default function SupportPage() {
           </div>
         )}
 
-        {/* AI response */}
+        {/* AI / Fallback response */}
         <div className="bg-[#F6F2FF] p-4 rounded-2xl text-sm text-gray-700 min-h-[80px]">
           {loading ? "Listening and thinking… " : reply}
         </div>
