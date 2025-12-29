@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
 const ADMIN_EMAIL = "admin@mindcare.app";
@@ -11,29 +12,31 @@ export default function AdminPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const user = auth.currentUser;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      // 🚫 not logged in
+      if (!user) {
+        router.push("/login");
+        return;
+      }
 
-    // 🚫 not logged in
-    if (!user) {
-      router.push("/login");
-      return;
-    }
+      // 🚫 logged in but not admin
+      if (user.email !== ADMIN_EMAIL) {
+        alert("Access denied 😬");
+        router.push("/home");
+        return;
+      }
 
-    // 🚫 logged in but not admin
-    if (user.email !== ADMIN_EMAIL) {
-      alert("Access denied 😬");
-      router.push("/home");
-      return;
-    }
+      // ✅ admin only
+      fetch("https://techspirit.onrender.com/admin/stats")
+        .then((res) => res.json())
+        .then((data) => setStats(data))
+        .catch(() => {
+          alert("Failed to load admin stats");
+        });
+    });
 
-    // ✅ admin only
-    fetch("https://techspirit.onrender.com/posts")
-      .then(res => res.json())
-      .then(data => setStats(data))
-      .catch(() => {
-        alert("Failed to load admin stats");
-      });
-  }, []);
+    return () => unsubscribe();
+  }, [router]);
 
   if (!stats) {
     return (
