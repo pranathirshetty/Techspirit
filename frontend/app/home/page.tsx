@@ -1,6 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import AdminEntry from "../components/AdminEntry";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export default function MoodSelectPage() {
   const router = useRouter();
@@ -18,10 +21,34 @@ export default function MoodSelectPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFE6F2] via-[#EDE7FF] to-[#DFF8FF] flex items-center justify-center px-6">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#FFE6F2] via-[#EDE7FF] to-[#DFF8FF] flex items-center justify-center px-6">
+
+      {/* ✅ INVISIBLE ADMIN ENTRY (secret access) */}
+      <AdminEntry />
+
+      {/* ✅ LOGOUT BUTTON – TOP RIGHT */}
+      <button
+        onClick={async () => {
+          await signOut(auth);
+          router.push("/login");
+        }}
+        className="
+          absolute top-6 right-6
+          bg-white/80 backdrop-blur
+          text-[#8A4F5C] font-semibold text-sm
+          px-5 py-2 rounded-full
+          shadow-md
+          hover:bg-[#FFDDEB]
+          hover:scale-105
+          transition
+        "
+      >
+        Logout 🚪
+      </button>
+
       <div>
 
-        
+        {/* WELCOME CARD */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg p-6 mb-6">
           <h2 className="text-2xl font-bold text-[#8A4F5C] text-center mb-2">
             Welcome to Mood Share
@@ -32,7 +59,7 @@ export default function MoodSelectPage() {
           </p>
         </div>
 
-        
+        {/* MOOD GRID */}
         <div className="grid grid-cols-2 gap-4 mb-8">
           {moods.map((m) => (
             <button
@@ -42,18 +69,19 @@ export default function MoodSelectPage() {
             >
               <div className="flex flex-col items-center">
                 <span className="text-5xl">{m.emoji}</span>
-                <p className="mt-3 font-semibold text-[#56333C]">{m.label}</p>
+                <p className="mt-3 font-semibold text-[#56333C]">
+                  {m.label}
+                </p>
               </div>
             </button>
           ))}
         </div>
 
-      
+        {/* INFO CARD */}
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-md p-6">
           <h4 className="text-[#8A4F5C] font-semibold mb-2">
             Why we ask about mood ?
           </h4>
-
           <p className="text-[#56333C] text-sm leading-relaxed">
             Your mood helps guide what kind of support we show you.  
             It isn’t saved with your identity — because we don’t collect one.
@@ -63,8 +91,8 @@ export default function MoodSelectPage() {
         <p className="text-center text-xs text-[#8A4F5C] mt-6">
           You matter. Your feelings matter. Always 🌸
         </p>
-        </div>
-      
+
+      </div>
     </div>
   );
 }

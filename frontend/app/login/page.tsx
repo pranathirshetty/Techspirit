@@ -11,26 +11,46 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+const handleLogin = async () => {
+  if (!name || !password) {
+    alert("Fill all fields ");
+    return;
+  }
 
-  const handleLogin = async () => {
-    if (!name || !password) {
-      alert("Fill all fields ");
-      return;
+  try {
+    setLoading(true);
+
+    let email = "";
+    let isAdmin = false;
+
+    // 👑 ADMIN LOGIN
+    if (name.trim().toLowerCase() === "admin") {
+      email = "admin@mindcare.app";
+      isAdmin = true;
+    } 
+    // 👤 NORMAL USER LOGIN
+    else {
+      const cleanName = name.toLowerCase().replace(/\s+/g, "");
+      email = `${cleanName}@mindcare.app`;
     }
 
-    const cleanName = name.toLowerCase().replace(/\s+/g, "");
-    const fakeEmail = `${cleanName}@mindcare.app`;
+    await signInWithEmailAndPassword(auth, email, password);
 
-    try {
-      setLoading(true);
-      await signInWithEmailAndPassword(auth, fakeEmail, password);
-      router.push("/home");
-    } catch {
-      alert("Invalid name or password ");
-    } finally {
-      setLoading(false);
+    // 🔀 REDIRECT BASED ON ROLE
+    if (isAdmin) {
+      router.replace("/admin"); // 👑 ADMIN → STATS ONLY
+    } else {
+      router.replace("/home");  // 👤 USER → APP
     }
-  };
+
+  } catch (err) {
+    alert("Invalid name or password ");
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4
