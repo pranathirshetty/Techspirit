@@ -14,7 +14,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     if (!name || !password) {
-      alert("Fill all fields 🙄");
+      alert("Fill all fields ");
       return;
     }
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, fakeEmail, password);
       router.push("/home");
     } catch {
-      alert("Invalid name or password 😭");
+      alert("Invalid name or password ");
     } finally {
       setLoading(false);
     }
@@ -50,7 +50,7 @@ export default function LoginPage() {
           </div>
 
           <h1 className="text-2xl font-bold text-gray-800">MindCare</h1>
-          <p className="text-sm text-gray-600">Welcome back 🌱</p>
+          <p className="text-sm text-gray-600">Welcome back </p>
         </div>
 
         {/* FORM */}

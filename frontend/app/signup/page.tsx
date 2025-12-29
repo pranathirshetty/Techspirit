@@ -14,7 +14,7 @@ export default function SignupPage() {
 
   const handleSignup = async () => {
     if (!name || !password) {
-      alert("Fill all fields da 🙄");
+      alert("Fill all fields ");
       return;
     }
 
@@ -27,7 +27,7 @@ export default function SignupPage() {
       router.push("/home");
     } catch (err: any) {
       if (err.code === "auth/email-already-in-use") {
-        alert("Name already exists. Please login 💀");
+        alert("Name already exists. Please login ");
       } else {
         alert("Password too weak (min 6 characters)");
       }

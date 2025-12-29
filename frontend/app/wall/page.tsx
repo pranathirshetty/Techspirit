@@ -34,7 +34,7 @@ fetch("https://techspirit.onrender.com/posts")
       <div className="w-full max-w-xl">
 
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-semibold">Wall 🌸</h1>
+          <h1 className="text-3xl font-semibold">Wall </h1>
           <p className="text-gray-500">Anonymous thoughts. Silent support.</p>
         </div>
 

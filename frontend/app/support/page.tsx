@@ -11,7 +11,7 @@ export default function SupportPage() {
     const storedText = sessionStorage.getItem("supportText");
 
     if (!storedText) {
-      setReply("I’m here with you. Share what’s on your mind. 🌱");
+      setReply("I am here with you. Share what is on your mind. ");
       setLoading(false);
       return;
     }
@@ -33,7 +33,7 @@ export default function SupportPage() {
         setReply(data.reply);
       } catch (err) {
         setReply(
-          "Something went wrong, but I’m still here with you. 🌷"
+          "Something went wrong, but I'm still here with you. 🌷"
         );
       } finally {
         setLoading(false);
@@ -65,7 +65,7 @@ export default function SupportPage() {
 
         {/* AI response */}
         <div className="bg-[#F6F2FF] p-4 rounded-2xl text-sm text-gray-700 min-h-[80px]">
-          {loading ? "Listening and thinking… 🌱" : reply}
+          {loading ? "Listening and thinking… " : reply}
         </div>
       </div>
     </div>
