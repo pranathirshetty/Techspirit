@@ -10,7 +10,7 @@ export default function WritePage() {
   async function post() {
     if (!text.trim()) return;
 
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, {
+    await fetch("https://https://techspirit.onrender.com/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text, mood: "unknown" })

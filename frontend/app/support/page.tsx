@@ -20,7 +20,7 @@ export default function SupportPage() {
 
     async function fetchSupport() {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, {
+        const res = await fetch("https://techspirit.onrender.com/posts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

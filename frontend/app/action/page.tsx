@@ -32,7 +32,8 @@ export default function ActionPage() {
       setLoading(true);
 
       try {
-        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts` ,{
+        await fetch("https://techspirit.onrender.com/posts"
+ ,{
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

@@ -17,7 +17,7 @@ export default function WallPage() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
- fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`)
+fetch("https://techspirit.onrender.com/posts")
       .then(res => res.json())
       .then(data => setPosts([...data, ...dummyPosts]))
       .catch(() => setPosts(dummyPosts));

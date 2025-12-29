@@ -6,7 +6,7 @@ export default function AdminPage() {
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
-   fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`)
+  fetch("https://techspirit.onrender.com/posts")
       .then(res => res.json())
       .then(data => setStats(data));
   }, []);
