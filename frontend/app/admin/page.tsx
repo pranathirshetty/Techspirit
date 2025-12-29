@@ -6,7 +6,7 @@ export default function AdminPage() {
   const [stats, setStats] = useState<any>(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/admin/stats")
+   fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`)
       .then(res => res.json())
       .then(data => setStats(data));
   }, []);

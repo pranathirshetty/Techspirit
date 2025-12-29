@@ -32,7 +32,7 @@ export default function ActionPage() {
       setLoading(true);
 
       try {
-        await fetch("http://localhost:5000/posts", {
+        await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts` ,{
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

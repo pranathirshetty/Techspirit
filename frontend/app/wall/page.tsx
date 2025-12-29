@@ -17,7 +17,7 @@ export default function WallPage() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/posts")
+ fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`)
       .then(res => res.json())
       .then(data => setPosts([...data, ...dummyPosts]))
       .catch(() => setPosts(dummyPosts));

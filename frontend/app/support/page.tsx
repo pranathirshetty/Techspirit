@@ -20,7 +20,7 @@ export default function SupportPage() {
 
     async function fetchSupport() {
       try {
-        const res = await fetch("http://localhost:5000/support", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/posts`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
