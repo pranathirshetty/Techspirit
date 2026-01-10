@@ -20,5 +20,8 @@ It allows users to express emotions anonymously or receive private AI-powered em
 ## 🧠 Problem Statement
 Traditional mental health awareness platforms fail to engage students effectively and often compromise privacy. TechSpirit addresses this by offering an anonymous, emotionally safe space powered by AI-driven support.
 
-## 📌 Status
-Currently under active development.
+## Deployment
+
+- Frontend (Vercel): https://moodshare-iota.vercel.app  
+- Backend (Render): https://techspirit.onrender.com
+
